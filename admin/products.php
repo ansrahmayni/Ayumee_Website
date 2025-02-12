@@ -13,6 +13,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <title>Document</title>
 </head>
 <body>
@@ -33,21 +35,21 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php foreach ($products as $product): ?>
                 <tr>
                     <td><?php echo $product['id']; ?></td>
-                    <td><img src="../uploads/<?php echo $product['photo']; ?>" width="100" alt="Product Photo"></td>
+                    <td><img src="../uploads/<?php echo str_replace(' ', '_', $product['series']) . '/' . $product['photo']; ?>" width="100" alt="Product Photo"></td>
+
                     <td><?php echo $product['name']; ?></td>
                     <td><?php echo $product['series']; ?></td>
                     <td><?php echo $product['stock']; ?></td>
                     <td><?php echo $product['price']; ?></td>
                     <td>
-                        <a href="view.php?id=<?php echo $employee['id']; ?>">View</a> |
-                        <a href="edit.php?id=<?php echo $employee['id']; ?>">Edit</a> |
-                        <a href="delete.php?id=<?php echo $employee['id']; ?>" onclick="return confirm('Anda yakin ingin menghapus data ini?');">Delete</a>
+                        <a class="update" href="update.php?id=<?php echo $product['id']; ?>"><i class="fa-solid fa-pen-to-square"></i></a> |
+                        <a class="delete" href="delete.php?id=<?php echo $product['id']; ?>" onclick="return confirm('Anda yakin ingin menghapus data ini?');"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <a href="../admin/add_product.php" class="tambah">Tambah Karyawan Baru</a>
+    <a href="../admin/add_product.php" class="tambah">Tambah Produk</a>
 </body>
 
 <style>
@@ -71,6 +73,18 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         vertical-align: middle;
     }
 
+    .td i{
+        text-decoration: none;
+    }
+
+    .update{
+        color: black;
+    }
+
+    .delete{
+        color: red;
+    }
+
     td img {
         display: block;
         margin: auto;
@@ -81,7 +95,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     
     .tambah{
-        background-color: #E0C8C8;
+        background-color: #975B5B;
         text-decoration: none;
         color: #fff;
         padding: 10px 20px;
@@ -96,7 +110,8 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     .tambah:hover{
-        background-color: #975B5B;
+        background-color: #E0C8C8;
+        color: black
     }
 
 
