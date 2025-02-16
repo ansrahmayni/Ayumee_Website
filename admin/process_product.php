@@ -20,39 +20,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mkdir($upload_dir, 0777, true);
     }
 
-    // Upload file ke dalam folder series
+    // Menangani upload file
     $photo_name = $_FILES['photo']['name'];
     $photo_tmp = $_FILES['photo']['tmp_name'];
-    $photo_path = $upload_dir . $photo_name;
-    
-    if (move_uploaded_file($photo_tmp, $photo_path)) {
-        try {
-            // Simpan hanya path relatif ke database
-            $relative_photo_path = "uploads/" . $series_folder . "/" . $photo_name;
 
-            // Query Insert menggunakan PDO
-            $sql = "INSERT INTO products (id, name, description, series, stock, price, photo) 
-                    VALUES (:id, :name, :description, :series, :stock, :price, :photo)";
-            
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute([
-                ':id' => $id,
-                ':name' => $name,
-                ':description' => $description,
-                ':series' => $series,
-                ':stock' => $stock,
-                ':price' => $price,
-                ':photo' => $relative_photo_path // Simpan path relatif ke database
-            ]);
-
-            // Redirect ke products.php setelah berhasil
-            header("Location: ../admin/products.php");
+    // Pastikan ada file yang diupload
+    if (!empty($photo_name)) {
+        $file_path = $upload_dir . $photo_name;
+        
+        if (move_uploaded_file($photo_tmp, $file_path)) {
+            $photo_name_db = $photo_name; // Simpan hanya nama file di database
+        } else {
+            echo "Gagal mengunggah foto.";
             exit();
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
         }
     } else {
-        echo "Gagal mengupload file.";
+        $photo_name_db = ""; // Jika tidak ada file diupload
+    }
+
+    try {
+        // Query Insert menggunakan PDO
+        $sql = "INSERT INTO products (id, name, description, series, stock, price, photo) 
+                VALUES (:id, :name, :description, :series, :stock, :price, :photo)";
+        
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':description' => $description,
+            ':series' => $series,
+            ':stock' => $stock,
+            ':price' => $price,
+            ':photo' => $photo_name_db // Simpan hanya nama file
+        ]);
+
+        // Redirect ke halaman produk setelah sukses
+        header("Location: ../admin/products.php");
+        exit();
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }
 ?>

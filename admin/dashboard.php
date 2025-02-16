@@ -5,7 +5,7 @@ require 'header.php';
 
 // Cek apakah pengguna sudah login
 if (!isset($_SESSION['id'])) {
-    header("Location: ../admin/login.php");
+    header("Location: ../admin/dashboard");
     exit;
 }
 

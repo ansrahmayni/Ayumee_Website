@@ -16,7 +16,7 @@
 
         // Cek halaman dan tambahkan class "active"
         if (currentPage === "dashboard.php") {
-            document.getElementById("home").classList.add("active");
+            document.getElementById("dashboard").classList.add("active");
         } else if (currentPage === "products.php") {
             document.getElementById("product").classList.add("active");
         }
@@ -28,11 +28,11 @@
     <div class="sidebar">
         <h2>☰  Administrator</h2>
         <ul>
-            <li><a href="dashboard.php" class="menu_item" id="home">Home</a></li>
+            <li><a href="dashboard.php" class="menu_item" id="dashboard">Home</a></li>
             <li><a href="products.php" class="menu_item" id="product">Product</a></li>
         </ul> 
         <br /><br /><br /><br /><br />  
-        <a href="logout.php" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        <a href="../admin/index.php" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
         
     </div>
 
