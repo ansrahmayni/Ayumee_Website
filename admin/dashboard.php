@@ -3,17 +3,14 @@ session_start();
 require '../includes/config.php';
 require 'header.php';
 
-// Cek apakah pengguna sudah login
-if (!isset($_SESSION['id'])) {
-    header("Location: ../admin/dashboard");
-    exit;
-}
 
+// Ambil data produk dari database
 $sql = "SELECT * FROM products";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -32,7 +32,7 @@
             <li><a href="products.php" class="menu_item" id="product">Product</a></li>
         </ul> 
         <br /><br /><br /><br /><br />  
-        <a href="../admin/index.php" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        <a href="logout.php" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
         
     </div>
 
