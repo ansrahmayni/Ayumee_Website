@@ -28,6 +28,12 @@ if (isset($_GET['id'])) {
     <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
+<script>
+    
+
+</script>
+
 <body>
 
 <div class="product-detail">
@@ -35,8 +41,8 @@ if (isset($_GET['id'])) {
         <img src="uploads/<?= htmlspecialchars($product['series']) ?>/<?= htmlspecialchars($product['photo']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
     </div>
     <div class="product-info">
-        <h2><?= htmlspecialchars($product['name']); ?></h2>
-        <p class="price">Rp <?= number_format($product['price'], 0, ',', '.'); ?></p>
+        <h2><?= htmlspecialchars($product['name']); ?></h2> <br /><br />
+        <p class="price">Rp <?= number_format($product['price'], 0, ',', '.'); ?></p><br />
         <p class="desc" ><?= htmlspecialchars($product['description']); ?></p>
         <p class="stock">Tersisa <?= htmlspecialchars($product['stock']); ?> buah</p>
         
@@ -62,53 +68,109 @@ function increaseQuantity() {
     let qty = document.getElementById("quantity");
     qty.value = parseInt(qty.value) + 1;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".add-to-cart").addEventListener("click", function () {
+        let quantity = parseInt(document.getElementById("quantity").value);
+        let productId = <?= json_encode($product['id']); ?>;
+
+        fetch("add_to_cart.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },      
+            body: JSON.stringify({ id: productId, quantity: quantity }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelector(".cart-badge").textContent = data.total_items;
+            } else {
+                alert("Gagal menambahkan ke keranjang");
+            }
+        });
+    });
+});
+
 </script>
 
 </body>
 
 <style>
-    body{
+    body {
         font-family: 'Rammetto One', cursive;
         background-color: #E0C8C8;
         display: flex;
         justify-content: center;
+        align-items: center;
         height: 100vh; /* Agar selalu di tengah vertikal */
         margin: 0;
+        flex-direction: column; /* Menyusun elemen secara vertikal */
+    }
+
+    nav {
+        position: fixed; /* Navbar tetap di atas */
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #FCEBE5;
+        padding: 15px 20px;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .product-detail {
         display: flex;
-        gap: 20px;
         background: #fff;
         border-radius: 10px;
         width: 80%;
-        height: 80%;
         align-items: center;
         justify-content: center;
+        padding: 10px 20px;
+        margin: 0 700px;
+        margin-top: 80px; /* Supaya tidak tertutup navbar */
     }
 
     .image-container{
-        margin-top: 50px;
-
+        flex: 1; /* Biar foto lebih ke kiri */
+        display: flex;
+        justify-content: flex-start; /* Dorong ke kiri */
     }
 
     .image-container img {
-        width: 300px;
+        width: 500px;
         border-radius: 10px;
     }
 
     .product-info {
-        max-width: 400px;
+        margin-left: 20px;
+        margin-bottom: 120px;
+        
+    }
+
+    .h2{
+        padding-bottom: 150px;
+    }
+
+    .desc{
+        font-family: 'Poppins';
+        background-color: #F4F2F2;
+        padding: 10px;
+    }
+
+    .stock{
+        font-family: 'Poppins';
+        color:rgb(140, 140, 140);
+        margin-top: 50px;
+        font-size: 15px;
     }
 
     .price {
         font-size: 20px;
         font-weight: bold;
         color: #d9534f;
-    }
-
-    .desc{
-        font-family: 'Poppins';
     }
 
     .quantity {

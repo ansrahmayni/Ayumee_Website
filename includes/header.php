@@ -6,19 +6,48 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".add-to-cart").addEventListener("click", function () {
+        let quantity = parseInt(document.getElementById("quantity").value);
+        let productId = <?= json_encode($product['id']); ?>;
+
+        fetch("add_to_cart.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },      
+            body: JSON.stringify({ id: productId, quantity: quantity }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById("cart-badge").textContent = data.total_items;
+            } else {
+                alert("Gagal menambahkan ke keranjang");
+            }
+        });
+    });
+});
+
+</script>
+
 <body>
     <nav class="navbar">
-        <a href="#home" class="logo">
+        <a href="index.php#home" class="logo">
             <img src="assets/images/logo.png" alt="Ayumee Logo">
         </a>
         <ul class="nav-links">
-            <li><a href="#about">Tentang Kami</a></li>
-            <li><a href="#product">Produk</a></li>
+            <li><a href="index.php#about">Tentang Kami</a></li>
+            <li><a href="index.php#product">Produk</a></li>
+            <li><a href="order_history.php">Riwayat</a></li>
             <li><a href="logout.php">Logout</a> </li>
         </ul>
+        <?php session_start(); ?>
         <div class="cart">
-            <img src="assets/images/Cart.png" alt="Keranjang">
-            <span class="cart-badge">3</span>
+            <a href="cart.php"> <img src="assets/images/Cart.png" alt="Keranjang"></a>
+            <span class="cart-badge"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0; ?></span>
         </div>
     </nav>
 </body>
