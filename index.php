@@ -3,10 +3,7 @@ require 'includes/config.php';
 require 'includes/header.php';
 
 session_start();
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
-}
+
 $sql = "SELECT * FROM products";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();

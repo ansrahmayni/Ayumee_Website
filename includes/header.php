@@ -41,13 +41,24 @@
         <ul class="nav-links">
             <li><a href="index.php#about">Tentang Kami</a></li>
             <li><a href="index.php#product">Produk</a></li>
-            <li><a href="order_history.php">Riwayat</a></li>
-            <li><a href="logout.php">Logout</a> </li>
+            <?php
+            session_start();
+            if (isset($_SESSION['user_id'])) {
+                // Jika user sudah login, tampilkan tombol logout
+                echo '<li><a href="logout.php">Logout</a></li>';
+            } else {
+                // Jika belum login, tampilkan tombol login
+            }
+            ?>
+
         </ul>
-        <?php session_start(); ?>
+        <form action="search.php" method="GET" class="search-form">
+            <input type="text" name="query" placeholder="Cari produk..." required>
+            <button type="submit">Search</button>
+        </form>
+
         <div class="cart">
             <a href="cart.php"> <img src="assets/images/Cart.png" alt="Keranjang"></a>
-            <span class="cart-badge"><?= isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0; ?></span>
         </div>
     </nav>
 </body>
@@ -108,26 +119,46 @@ nav{
 }
 
 .cart img {
-    max-height: 30px; /* Ukuran ikon keranjang */
+    max-height: 40px; /* Ukuran ikon keranjang */
     width: auto;
 }
 
 .cart-badge {
     position: absolute;
+    font-family: 'Poppins';
     top: -5px;
     right: -10px;
     background-color: red;
     color: white;
     font-size: 12px;
-    padding: 2px 6px;
+    padding: 1px 6px;
     border-radius: 50%;
 }
 
-/* Responsif untuk layar kecil */
-@media (max-width: 768px) {
-    .nav-links {
-        display: none; /* Sembunyikan menu jika layar kecil */
-    }
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-form input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-form button {
+    padding: 5px 10px;
+    background-color: #791818;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #590D0D;
 }
 
 </style>

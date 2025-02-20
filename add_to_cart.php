@@ -1,29 +1,19 @@
 <?php
+require 'includes/config.php';
 session_start();
-header("Content-Type: application/json");
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(file_get_contents("php://input"), true);
+$data = json_decode(file_get_contents("php://input"), true);
+$product_id = $data['id'];
+$quantity = $data['quantity'];
 
-    if (!isset($data['id']) || !isset($data['quantity'])) {
-        echo json_encode(["success" => false, "message" => "Data tidak lengkap"]);
-        exit;
-    }
+// Ambil stok produk dari database
+$stmt = $pdo->prepare("SELECT stock FROM products WHERE id = ?");
+$stmt->execute([$product_id]);
+$product = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $id = $data['id'];
-    $quantity = (int) $data['quantity'];
-
-    if (!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
-
-    if (isset($_SESSION['cart'][$id])) {
-        $_SESSION['cart'][$id] += $quantity;
-    } else {
-        $_SESSION['cart'][$id] = $quantity;
-    }
-
+if ($product && $product['stock'] >= $quantity) {
+    $_SESSION['cart'][$product_id] = $quantity;
     echo json_encode(["success" => true, "total_items" => array_sum($_SESSION['cart'])]);
 } else {
-    echo json_encode(["success" => false, "message" => "Metode request tidak valid"]);
+    echo json_encode(["success" => false, "message" => "Stok tidak mencukupi"]);
 }

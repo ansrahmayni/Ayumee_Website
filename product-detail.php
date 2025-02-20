@@ -2,6 +2,14 @@
 require 'includes/config.php'; // Koneksi ke database
 require 'includes/header.php';
 
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    // Simpan halaman tujuan setelah login
+    $_SESSION['redirect_after_login'] = "product-detail.php?id=" . $_GET['id'];
+    header("Location: login.php");
+    exit;
+}
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
@@ -44,7 +52,6 @@ if (isset($_GET['id'])) {
         <h2><?= htmlspecialchars($product['name']); ?></h2> <br /><br />
         <p class="price">Rp <?= number_format($product['price'], 0, ',', '.'); ?></p><br />
         <p class="desc" ><?= htmlspecialchars($product['description']); ?></p>
-        <p class="stock">Tersisa <?= htmlspecialchars($product['stock']); ?> buah</p>
         
         <div class="quantity">
             <button onclick="decreaseQuantity()">-</button>
@@ -160,12 +167,6 @@ document.addEventListener("DOMContentLoaded", function () {
         padding: 10px;
     }
 
-    .stock{
-        font-family: 'Poppins';
-        color:rgb(140, 140, 140);
-        margin-top: 50px;
-        font-size: 15px;
-    }
 
     .price {
         font-size: 20px;
@@ -174,26 +175,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     .quantity {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    width: fit-content;
+    background: white;
+        margin-top: 50px;
+}
 
-    .quantity button {
-        background: #d9534f;
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-    }
+.quantity button {
+    background: none;
+    color: black;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.quantity input {
+    width: 30px;
+    text-align: center;
+    font-size: 16px;
+    border: none;
+    background: none;
+    font-weight: bold;
+}
 
     .add-to-cart {
         background: #7d3c3c;
+        font-family: 'Rammetto One';
+        margin-top: 30px;
         color: white;
         border: none;
         padding: 10px;
         cursor: pointer;
-        font-weight: bold;
+        border-radius: 10px;
+    }
+
+    .add-to-cart:hover{
+        background:rgb(54, 14, 14);
     }
 
 </style>
