@@ -64,11 +64,7 @@ $_SESSION['total_price'] = $total_price;
 
                             <td>Rp <?= number_format($item['price'], 0, ',', '.'); ?></td>
                             <td>
-                                <div class="quantity-container">
-                                    <button class="qty-btn decrease" data-id="<?= $item['id']; ?>">-</button>
-                                    <input type="text" class="qty-input" value="<?= $item['quantity']; ?>" data-id="<?= $item['id']; ?>" readonly>
-                                    <button class="qty-btn increase" data-id="<?= $item['id']; ?>">+</button>
-                                </div>
+                                <span><?= htmlspecialchars($item['quantity']); ?></span>
                             </td>
                             <td class="subtotal" data-id="<?= $item['id']; ?>">Rp <?= number_format($item['subtotal'], 0, ',', '.'); ?></td>
 

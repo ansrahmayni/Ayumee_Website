@@ -69,10 +69,6 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: 'Poppins';
-}
-
 nav{
     z-index: 100000;
     position: fixed; /* Tetap di atas saat scroll */
@@ -104,14 +100,11 @@ nav{
     gap: 100px;
 }
 
-.nav-links li {
-    font-weight: bold;
-}
-
 .nav-links a {
     text-decoration: none;
     color: #333;
-    font-size: 18px;
+    font-size: 15px;
+    font-family: 'Rammetto One';
 }
 
 .cart {

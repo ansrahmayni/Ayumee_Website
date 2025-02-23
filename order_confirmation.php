@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require 'includes/config.php';
 require 'includes/header.php';
@@ -23,6 +22,7 @@ $payment = $stmt->fetch(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Konfirmasi Pesanan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rammetto+One&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="overall">
@@ -54,6 +54,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Rammetto One';
 }
 
 .overall {

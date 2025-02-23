@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             width: 80%;
             margin: 0 auto;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
         }
         .form-section {
             background: #fff;
@@ -96,15 +96,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         .order-summary {
             background: #fff;
             margin-right: 20px;
-            padding: 10px
+            padding: 10px;
+            border: 5px solid #E0C8C8;
+            width: 120%;
         }
         .form-section {
             width: 55%;
         }
         .order-summary {
-            border: 5px solid #E0C8C8;
-            width: 100%;
-            max-width: 400px;
         }
 
         .order-summary h3 {
@@ -189,7 +188,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             border-radius: 8px;
             cursor: pointer;
             display: block;
-            width: 105%;
+            width: 100%;
             margin-top: 20px;
         }
         .pay-button:hover {
@@ -223,7 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <label>Alamat Lengkap: <textarea name="address" required></textarea></label>
                 <input type="hidden" name="total_price" value="<?= $total_price ?>">
             </form>
-            <button type="button" id="pay-button" class="pay-button">Bayar Sekarang</button>
+            
         </div>
         <div class="order-summary">
             <h3>Daftar Pesanan</h3>
@@ -248,6 +247,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <p>Subtotal: <span class="subtotal">Rp <?= number_format($total_price, 0, ',', '.'); ?></span></p>
                 <p class="total">Total: <span>Rp <?= number_format($total_price, 0, ',', '.'); ?></span></p>
             </div>
+            <button type="button" id="pay-button" class="pay-button">Bayar Sekarang</button>
         </div>
     
     <script>
